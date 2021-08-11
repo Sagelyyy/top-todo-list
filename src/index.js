@@ -1,12 +1,31 @@
-import './style.css'
-import { NAVIGATION } from './sidebar';
+import './modules/style.css'
+import { SIDEBAR } from './modules/sidebar';
 
 
-function init(){
-    NAVIGATION.pushNewButton()
-}
+export const MAIN = (function(){
 
-window.onload = init
+    function getSelectors(){
+        const newListBtn = document.querySelector('#new-list')
+        const homeBtn = document.querySelector('#home')
+        const contentPage = document.querySelector('.content-page')
+        return{
+            newListBtn,
+            homeBtn,
+            contentPage
+        }
+    }
+
+    function init(){
+        SIDEBAR.pushHomeButton(MAIN.getSelectors().homeBtn)
+        SIDEBAR.pushNewButton(MAIN.getSelectors().newListBtn)
+    }
+    return{
+        init,
+        getSelectors
+    }
+})()
+
+window.onload = MAIN.init
 
 
 
