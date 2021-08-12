@@ -1,10 +1,11 @@
 export const TODO = (function () {
-
-    const createList = (title, desc, date, priority) => {
-        return{title, desc, date, priority}
+    const todoArray = []
+    const createList = (title, date, desc, priority) => {
+        todoArray.push({title, desc, date, priority})
     }
 
     return{
-        createList
+        createList,
+        todoArray
     }
 })();
