@@ -13,6 +13,7 @@ export const MAIN = (function(){
         const todoSubmitBtn = document.querySelector('.todo-submit-button')
         const todoTitleInpt = document.querySelector('#todo-title-input')
         const todoDateInpt = document.querySelector('#todo-date-input')
+        const todoTimeInpt = document.querySelector('#todo-time-input')
         const todoDescInpt = document.querySelector('#todo-desc-area')
         const todoHp = document.querySelector('#todo-radio-hp')
         const todoContent = document.querySelector('#todo-display')
@@ -24,6 +25,7 @@ export const MAIN = (function(){
             todoSubmitBtn,
             todoTitleInpt,
             todoDateInpt,
+            todoTimeInpt,
             todoDescInpt,
             todoHp,
             todoContent

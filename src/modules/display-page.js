@@ -13,14 +13,14 @@ export const SHOWPAGE = (function(){
 
 
         if(TODO.todoArray.length == 0){
-            // MAIN.getSelectors().contentPage.textContent = (
-            //     'Click the + button to add a new item!')
+            MAIN.getSelectors().contentPage.textContent = (
+                'Click the + button to add a new item!')
             //for testing purposes
-            TODO.createList(
-                'Date night',
-                '08/14/2021',
-                'Go out to dinner with my Fiance',
-                'false')
+            // TODO.createList(
+            //     'Date night',
+            //     '08/14/2021',
+            //     'Go out to dinner with my Fiance',
+            //     'false')
         }else{
             let todoDisplay = document.createElement('div')
             todoDisplay.id = ('todo-display')
@@ -47,6 +47,12 @@ export const SHOWPAGE = (function(){
             'When?', 'date', 'todo-date-input', null, 
             MAIN.getSelectors().formDiv)
 
+        let todoTime = new makeForm()
+        todoTime.createInputForm(
+            'input', 'time', 'todo-time', 'todo-time-label', 'todo-time-input',
+            'What time?', 'time', 'todo-time-input', null, 
+            MAIN.getSelectors().formDiv)
+
         let todoDescription = new makeForm()
         todoDescription.createInputForm(
             'textarea', null, 'todo-description', 'todo-desc-label', 'todo-desc-area', 'Desciption',
@@ -67,6 +73,7 @@ export const SHOWPAGE = (function(){
             TODO.createList(
                 MAIN.getSelectors().todoTitleInpt.value,
                 MAIN.getSelectors().todoDateInpt.value,
+                MAIN.getSelectors().todoTimeInpt.value,
                 MAIN.getSelectors().todoDescInpt.value,
                 MAIN.getSelectors().todoHp.checked)
                 homePage();
