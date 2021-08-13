@@ -21,5 +21,29 @@ export class makeForm{
         name.innerText = 'Submit'
         container.appendChild(name)
     }
+}
+
+export class makeTodo{
+
+    createDetails(detailsClass, container){
+        let newDetail = document.createElement('details')
+        newDetail.classList.add(detailsClass)
+        container.appendChild(newDetail)
+    }
+
+    createSummary(sClass, sText, container){
+        let tempSum = document.createElement('summary')
+        tempSum.classList.add(sClass)
+        tempSum.textContent = sText
+        container.appendChild(tempSum)
+    }
+
+    createP(
+        pClass, pText, container){
+            let tempPara = document.createElement('p')
+            tempPara.classList.add(pClass)
+            tempPara.textContent = pText
+            container.appendChild(tempPara)
+    }
 
 }

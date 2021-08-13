@@ -15,6 +15,7 @@ export const MAIN = (function(){
         const todoDateInpt = document.querySelector('#todo-date-input')
         const todoDescInpt = document.querySelector('#todo-desc-area')
         const todoHp = document.querySelector('#todo-radio-hp')
+        const todoContent = document.querySelector('#todo-display')
         return{
             newListBtn,
             homeBtn,
@@ -24,7 +25,8 @@ export const MAIN = (function(){
             todoTitleInpt,
             todoDateInpt,
             todoDescInpt,
-            todoHp
+            todoHp,
+            todoContent
         }
     }
 

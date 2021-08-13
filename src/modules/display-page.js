@@ -1,5 +1,5 @@
 import { MAIN } from ".."
-import { makeForm } from "./form-creator"
+import { makeForm } from "./element-creator"
 import { TODO } from "./todo"
 
 export const SHOWPAGE = (function(){
@@ -10,11 +10,22 @@ export const SHOWPAGE = (function(){
 
     function homePage(){
         clearPage()
+
+
         if(TODO.todoArray.length == 0){
-            MAIN.getSelectors().contentPage.textContent = (
-                'Click the + button to add a new item!')
+            // MAIN.getSelectors().contentPage.textContent = (
+            //     'Click the + button to add a new item!')
+            //for testing purposes
+            TODO.createList(
+                'Date night',
+                '08/14/2021',
+                'Go out to dinner with my Fiance',
+                'false')
         }else{
-            TODO.todoArray.forEach(element => console.log(element))
+            let todoDisplay = document.createElement('div')
+            todoDisplay.id = ('todo-display')
+            MAIN.getSelectors().contentPage.appendChild(todoDisplay)
+            TODO.itemSetup()
         }
     }
 
@@ -58,7 +69,7 @@ export const SHOWPAGE = (function(){
                 MAIN.getSelectors().todoDateInpt.value,
                 MAIN.getSelectors().todoDescInpt.value,
                 MAIN.getSelectors().todoHp.checked)
-                console.log(TODO.todoArray)
+                homePage();
         }
     }
     return{
