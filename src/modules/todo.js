@@ -3,10 +3,35 @@ import { MAIN } from "..";
 
 export const TODO = (function () {
     const todoArray = []
+    const categoryArray= []
+
     const createList = (title, date, time, desc, priority, itemID) => {
         itemID = todoArray.length
         todoArray.push({title, desc, date, time, priority, itemID})
+    }
 
+    function createNewCategory(title){
+        categoryArray.push(title)
+    }
+
+    function setupCategory(){
+        let catOption = document.createElement('option')
+        catOption.textContent = 'New category'
+        let catOption2 = document.createElement('option')
+        catOption2.textContent = 'New categoryy'
+        MAIN.getSelectors().todoCategory.appendChild(catOption)
+        MAIN.getSelectors().todoCategory.appendChild(catOption2)
+        if(categoryArray.length > 1){
+            for(i = 0; i < categoryArray.length; i++){
+                let catOption = document.createElement('option')
+                catOption.textContent = categoryArray[i]
+                MAIN.getSelectors().todoCategory.appendChild(catOption)
+            }
+        }
+    }
+
+    function deleteItem(){
+        //stuff
     }
 
     function arrangeItems(){
@@ -22,7 +47,6 @@ export const TODO = (function () {
 
     function itemSetup () {
         arrangeItems()
-        console.log(todoArray)
         for(let i = 0; i < todoArray.length; i++){
             let tempDetail = new makeTodo()
             tempDetail.createDetails(
@@ -59,6 +83,9 @@ export const TODO = (function () {
     return{
         createList,
         todoArray,
-        itemSetup
+        itemSetup,
+        createNewCategory,
+        setupCategory,
+        categoryArray
     }
 })();

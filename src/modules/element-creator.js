@@ -1,6 +1,7 @@
 export class makeForm{
     createInputForm(
-        formElement, type, eClass, eLabel, eFor, eLabelTxt, iName, iId, iPh, container)
+        formElement, type, req, eClass, eLabel, eFor, 
+        eLabelTxt, iName, iId, iPh, container)
         {
         eLabel = document.createElement('label')
         eLabel.className = eClass
@@ -10,13 +11,14 @@ export class makeForm{
         iName.setAttribute('type', type)
         iName.setAttribute('id', iId)
         iName.setAttribute('placeholder', iPh)
+        iName.required = req
         container.appendChild(eLabel)
         container.appendChild(iName)
     }
 
     createButtonForm(name, btnClass, container){
         name = document.createElement('button')
-        name.setAttribute('type', 'button')
+        name.setAttribute('type', 'submit')
         name.classList.add(btnClass)
         name.innerText = 'Submit'
         container.appendChild(name)
