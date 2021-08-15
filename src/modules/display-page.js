@@ -1,5 +1,5 @@
 import { MAIN } from ".."
-import { makeForm } from "./element-creator"
+import { makeForm, makeTodo } from "./element-creator"
 import { TODO } from "./todo"
 
 export const SHOWPAGE = (function(){
@@ -10,26 +10,32 @@ export const SHOWPAGE = (function(){
 
     function homePage(){
         clearPage()
-        console.log(TODO.todoArray.length)
+        console.log(`todo array: ${TODO.todoArray}`)
         console.log(TODO.categoryArray)
 
-        if(TODO.todoArray.length == 0){
-            MAIN.getSelectors().contentPage.textContent = (
+        if(TODO.categoryArray.length == 0){
+             MAIN.getSelectors().contentPage.textContent = (
                 'Click the + button to add a new item!')
-            //for testing purposes
-            // TODO.createList(
-            //     'Date night',
-            //     '08/14/2021',
-            //     'Go out to dinner with my Fiance',
-            //     'false')
         }else{
-            //instead of displaying the item, lets display
-            //the projects
             let todoDisplay = document.createElement('div')
             todoDisplay.id = ('todo-display')
             MAIN.getSelectors().contentPage.appendChild(todoDisplay)
-            TODO.itemSetup()
+            TODO.categoryDisplay()
+
         }
+    }
+
+    function categoryPage(title){
+        clearPage()
+        let catTitle = document.createElement('h1')
+        catTitle.textContent = title
+        let todoDisplay = document.createElement('div')
+        todoDisplay.id = ('todo-display')
+        MAIN.getSelectors().contentPage.appendChild(todoDisplay)
+        MAIN.getSelectors().todoContent.appendChild(catTitle)
+        TODO.itemSetup()
+
+
     }
 
     function newTodo(){
@@ -114,17 +120,19 @@ export const SHOWPAGE = (function(){
                 MAIN.getSelectors().todoDateInpt.value,
                 MAIN.getSelectors().todoTimeInpt.value,
                 MAIN.getSelectors().todoDescInpt.value,
-                MAIN.getSelectors().todoHp.checked);
+                MAIN.getSelectors().todoHp.checked,
+                MAIN.getSelectors().todoCategory.value);
                 TODO.createNewCategory(
                     MAIN.getSelectors().todoCatName.value)
                 homePage()
-
+s
             }
         }
         TODO.setupCategory()
     }
     return{
         newTodo,
-        homePage
+        homePage,
+        categoryPage
     }
 })()

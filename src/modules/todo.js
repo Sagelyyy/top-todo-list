@@ -1,13 +1,17 @@
 import { makeTodo } from "./element-creator";
 import { MAIN } from "..";
+import { NAVIGATION } from "./navigation-handler";
+import { SHOWPAGE } from "./display-page";
 
 export const TODO = (function () {
     const todoArray = []
     const categoryArray= []
 
-    const createList = (title, date, time, desc, priority, itemID) => {
+    const createList = (
+        title, date, time, desc, priority, itemID) => {
         itemID = todoArray.length
-        todoArray.push({title, desc, date, time, priority, itemID})
+        todoArray.push({
+            title, desc, date, time, priority, itemID})
     }
 
     function createNewCategory(title){
@@ -18,11 +22,9 @@ export const TODO = (function () {
         let catOption = document.createElement('option')
         catOption.textContent = 'New category'
         let catOption2 = document.createElement('option')
-        catOption2.textContent = 'New categoryy'
         MAIN.getSelectors().todoCategory.appendChild(catOption)
-        MAIN.getSelectors().todoCategory.appendChild(catOption2)
-        if(categoryArray.length > 1){
-            for(i = 0; i < categoryArray.length; i++){
+        if(categoryArray.length > 0){
+            for(let i = 0; i < categoryArray.length; i++){
                 let catOption = document.createElement('option')
                 catOption.textContent = categoryArray[i]
                 MAIN.getSelectors().todoCategory.appendChild(catOption)
@@ -31,6 +33,10 @@ export const TODO = (function () {
     }
 
     function deleteItem(){
+        //stuff
+    }
+
+    function deleteCategory(){
         //stuff
     }
 
@@ -43,6 +49,22 @@ export const TODO = (function () {
                 }
             });
         }
+    }
+
+    function categoryDisplay(){
+        for(let i = 0;i < TODO.categoryArray.length; i ++){
+            let newCat = new makeTodo()
+            newCat.createDiv(TODO.categoryArray[i],
+                MAIN.getSelectors().todoContent)
+                addCategoryListeners()
+        }
+    }
+
+    function addCategoryListeners(){
+        let myDivs = document.querySelectorAll('.cat-div')
+        myDivs.forEach(item => item.addEventListener('click',(e) => {
+            NAVIGATION.showCatPage(e.target.textContent)
+        }))
     }
 
     function itemSetup () {
@@ -86,6 +108,7 @@ export const TODO = (function () {
         itemSetup,
         createNewCategory,
         setupCategory,
-        categoryArray
+        categoryArray,
+        categoryDisplay
     }
 })();

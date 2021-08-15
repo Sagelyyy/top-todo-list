@@ -9,8 +9,13 @@ export const NAVIGATION = (function(){
     function newTask(){
         SHOWPAGE.newTodo()
     }
+
+    function showCatPage(title){
+        SHOWPAGE.categoryPage(title)
+    }
     return{
         home,
-        newTask
+        newTask,
+        showCatPage
     }
 })();

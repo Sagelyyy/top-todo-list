@@ -93,9 +93,10 @@ button{
 }
 
 #todo-display{
-    font-size: 40px;
-    display: column;
+    display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
+    height: 100%;
 }
 
 .todo-item:hover{
@@ -105,4 +106,19 @@ button{
 details{
     margin-top: 10%;
     font-size: 60px;
+}
+
+.cat-div{
+    margin-top: 5rem;
+    margin: 20px;
+    box-shadow: 10px 10px 10px black;
+    overflow: hidden;
+    width: 20rem;
+    height: 20rem;
+    background-color: slategray;
+    text-align: center;
+}
+.cat-div:hover{
+    cursor: pointer;
+    background-color: lightgray;
 }
