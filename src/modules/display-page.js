@@ -10,7 +10,7 @@ export const SHOWPAGE = (function(){
 
     function homePage(){
         clearPage()
-        console.log(`todo array: ${TODO.todoArray}`)
+        console.log(TODO.todoArray)
         console.log(TODO.categoryArray)
 
         if(TODO.categoryArray.length == 0){
@@ -44,6 +44,7 @@ export const SHOWPAGE = (function(){
         newFormDivc.id = 'todo-form'
         MAIN.getSelectors().contentPage.appendChild(newFormDivc)
 
+
         let todoCategory = new makeForm()
         todoCategory.createInputForm(
             'select', 'select', true, 'todo-category', 'todo-category-label',
@@ -56,7 +57,7 @@ export const SHOWPAGE = (function(){
              null, 'inputCat', 'cat-name', 'Enter category name', 
             MAIN.getSelectors().formDiv)
         
-        MAIN.getSelectors().todoCatName.hidden = false
+            MAIN.getSelectors().todoCatName.style.visibility = 'visible'
 
         let todoTitle = new makeForm()
         todoTitle.createInputForm(
@@ -97,13 +98,12 @@ export const SHOWPAGE = (function(){
         MAIN.getSelectors().formDiv)
         
         MAIN.getSelectors().todoCategory.addEventListener('change', (e)=>{
-            console.log(e.target.value)
             switch(e.target.value){
                 case 'New category':
-                    MAIN.getSelectors().todoCatName.hidden = false
+                    MAIN.getSelectors().todoCatName.style.visibility = 'visible'
                     break
                 default:
-                    MAIN.getSelectors().todoCatName.hidden = true
+                    MAIN.getSelectors().todoCatName.style.visibility = 'hidden'
                     break
 
             }
@@ -113,20 +113,36 @@ export const SHOWPAGE = (function(){
             if(
                 MAIN.getSelectors().todoTitleInpt.value != '' &&
                 MAIN.getSelectors().todoDateInpt.value != '' &&
-                MAIN.getSelectors().todoTimeInpt.value != ''
-            ){
-            TODO.createList(
-                MAIN.getSelectors().todoTitleInpt.value,
-                MAIN.getSelectors().todoDateInpt.value,
-                MAIN.getSelectors().todoTimeInpt.value,
-                MAIN.getSelectors().todoDescInpt.value,
-                MAIN.getSelectors().todoHp.checked,
-                MAIN.getSelectors().todoCategory.value);
-                TODO.createNewCategory(
-                    MAIN.getSelectors().todoCatName.value)
-                homePage()
-s
-            }
+                MAIN.getSelectors().todoTimeInpt.value != ''){
+                    switch(MAIN.getSelectors().todoCatName.style.visibility){
+                        case 'visible':
+                            TODO.createList(
+                                MAIN.getSelectors().todoCatName.value,
+                                MAIN.getSelectors().todoTitleInpt.value,
+                                MAIN.getSelectors().todoDateInpt.value,
+                                MAIN.getSelectors().todoTimeInpt.value,
+                                MAIN.getSelectors().todoDescInpt.value,
+                                MAIN.getSelectors().todoHp.checked,
+                                TODO.todoArray.length);
+                            TODO.createNewCategory(
+                                MAIN.getSelectors().todoCatName.value)
+                                break;
+                        case 'hidden':
+                            TODO.createList(
+                                MAIN.getSelectors().todoCategory.value,
+                                MAIN.getSelectors().todoTitleInpt.value,
+                                MAIN.getSelectors().todoDateInpt.value,
+                                MAIN.getSelectors().todoTimeInpt.value,
+                                MAIN.getSelectors().todoDescInpt.value,
+                                MAIN.getSelectors().todoHp.checked,
+                                TODO.todoArray.length);
+                            TODO.createNewCategory(
+                                MAIN.getSelectors().todoCategory.value)
+                                break;
+                    }
+                }
+        homePage()
+
         }
         TODO.setupCategory()
     }

@@ -8,10 +8,10 @@ export const TODO = (function () {
     const categoryArray= []
 
     const createList = (
-        title, date, time, desc, priority, itemID) => {
+        cat, title, date, time, desc, priority, itemID) => {
         itemID = todoArray.length
         todoArray.push({
-            title, desc, date, time, priority, itemID})
+            cat, title, date, time, desc, priority, itemID})
     }
 
     function createNewCategory(title){
@@ -52,7 +52,10 @@ export const TODO = (function () {
     }
 
     function categoryDisplay(){
-        for(let i = 0;i < TODO.categoryArray.length; i ++){
+        for(let i = 0;i < TODO.categoryArray.length; i++){
+            if(TODO.categoryArray[i] == TODO.categoryArray[i + 1]){
+                TODO.categoryArray.splice(i, 1)
+            }
             let newCat = new makeTodo()
             newCat.createDiv(TODO.categoryArray[i],
                 MAIN.getSelectors().todoContent)
@@ -86,7 +89,8 @@ export const TODO = (function () {
                         document.querySelector(`.todo-item${[i]}`))
                     }
                 }
-                if(prop != 'title' && prop != 'priority' && prop != 'itemID' && prop != 'time'){
+                if(prop != 'title' && prop != 'priority' && 
+                prop != 'itemID' && prop != 'time' && prop != 'cat'){
                     if(prop == 'desc'){
                         tempItems.createP(
                             'todo-para', obj[prop],
