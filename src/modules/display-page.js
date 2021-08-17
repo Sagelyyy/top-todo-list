@@ -38,6 +38,7 @@ export const SHOWPAGE = (function(){
         MAIN.getSelectors().todoContent.appendChild(todoContainer)
         MAIN.getSelectors().todoContent.style.flexDirection = ('column')
         TODO.itemSetup()
+        TODO.trashSetup()
     }
 
     function newTodo(){

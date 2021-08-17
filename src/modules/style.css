@@ -103,8 +103,11 @@ button{
     background-color: gray;
 }
 
+#todo-container{
+    margin-top: -100px
+}
+
 details{
-    margin-top: 10%;
     font-size: 60px;
 }
 
@@ -113,12 +116,16 @@ details{
     margin: 20px;
     box-shadow: 10px 10px 10px black;
     overflow: hidden;
-    width: 20rem;
-    height: 20rem;
+    width: 15rem;
+    height: 15rem;
     background-color: slategray;
     text-align: center;
 }
 .cat-div:hover{
     cursor: pointer;
     background-color: lightgray;
+}
+
+.cat-header{
+    text-transform: capitalize;
 }

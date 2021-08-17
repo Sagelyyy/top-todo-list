@@ -20,6 +20,8 @@ export const MAIN = (function(){
         const todoContainer = document.querySelector('#todo-container')
         const todoCategory = document.querySelector('#todo-category-input')
         const todoCatName = document.querySelector('#cat-name')
+        const todoHeader = document.querySelector('.cat-header')
+        const todoSummary = document.querySelector('.todo-summary')
         return{
             newListBtn,
             homeBtn,
@@ -34,7 +36,9 @@ export const MAIN = (function(){
             todoContent,
             todoCategory,
             todoCatName,
-            todoContainer
+            todoContainer,
+            todoHeader,
+            todoSummary
         }
     }
 

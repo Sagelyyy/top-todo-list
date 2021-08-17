@@ -34,11 +34,25 @@ export const TODO = (function () {
         }
     }
 
-    function deleteItem(){
+
+    function trashSetup(){
+        for(let i = 0; i < 100; i++){
+            if(document.querySelector('.todo-item'+[i]) != null){
+                let trash = document.createElement('div')
+                trash.textContent = 'delete'
+                trash.classList.add('material-icons')
+                trash.classList.add('md-48')
+                document.querySelector('.todo-item'+[i]).appendChild(trash)
+            }
+        }
+    }
+
+
+    function deleteItem(item){
         //stuff
     }
 
-    function deleteCategory(){
+    function deleteCategory(cat){
         //stuff
     }
 
@@ -126,7 +140,6 @@ export const TODO = (function () {
         }
     }
 
-
     return{
         createList,
         todoArray,
@@ -136,6 +149,7 @@ export const TODO = (function () {
         categoryArray,
         categoryDisplay,
         todoBuffer,
-        selectCorrectItems
+        selectCorrectItems,
+        trashSetup
     }
 })();
