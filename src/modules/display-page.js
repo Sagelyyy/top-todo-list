@@ -10,8 +10,7 @@ export const SHOWPAGE = (function(){
 
     function homePage(){
         clearPage()
-        console.log(TODO.todoArray)
-        console.log(TODO.categoryArray)
+        console.log(TODO.todoBuffer)
 
         if(TODO.categoryArray.length == 0){
              MAIN.getSelectors().contentPage.textContent = (
@@ -28,14 +27,17 @@ export const SHOWPAGE = (function(){
     function categoryPage(title){
         clearPage()
         let catTitle = document.createElement('h1')
+        catTitle.classList.add('cat-header')
         catTitle.textContent = title
         let todoDisplay = document.createElement('div')
         todoDisplay.id = ('todo-display')
         MAIN.getSelectors().contentPage.appendChild(todoDisplay)
         MAIN.getSelectors().todoContent.appendChild(catTitle)
+        let todoContainer = document.createElement('div')
+        todoContainer.id = ('todo-container')
+        MAIN.getSelectors().todoContent.appendChild(todoContainer)
+        MAIN.getSelectors().todoContent.style.flexDirection = ('column')
         TODO.itemSetup()
-
-
     }
 
     function newTodo(){
@@ -88,10 +90,6 @@ export const SHOWPAGE = (function(){
             'input', 'checkbox', false, 'todo-hp', 'todo-hp-label', 'todo-hp-radio',
             'High Priority', 'radio' ,'todo-radio-hp', null, 
             MAIN.getSelectors().formDiv)
-
-        //check if projects are empty, if they are prompt to 
-        //create new one, if not, then give option to make
-        //new one or append to selected project
 
         let todoSubmit = new makeForm()
         todoSubmit.createButtonForm('btn', 'todo-submit-button',

@@ -5,7 +5,8 @@ import { SHOWPAGE } from "./display-page";
 
 export const TODO = (function () {
     const todoArray = []
-    const categoryArray= []
+    const todoBuffer = []
+    const categoryArray = []
 
     const createList = (
         cat, title, date, time, desc, priority, itemID) => {
@@ -23,10 +24,11 @@ export const TODO = (function () {
         catOption.textContent = 'New category'
         let catOption2 = document.createElement('option')
         MAIN.getSelectors().todoCategory.appendChild(catOption)
-        if(categoryArray.length > 0){
-            for(let i = 0; i < categoryArray.length; i++){
+        let newCatArray = cleanDuplicates()
+        if(newCatArray.length > 0){
+            for(let i = 0; i < newCatArray.length; i++){
                 let catOption = document.createElement('option')
-                catOption.textContent = categoryArray[i]
+                catOption.textContent = newCatArray[i]
                 MAIN.getSelectors().todoCategory.appendChild(catOption)
             }
         }
@@ -40,6 +42,20 @@ export const TODO = (function () {
         //stuff
     }
 
+    function selectCorrectItems() {
+        todoBuffer.length = 0;
+        for(let i = 0; i < todoArray.length; i++){
+            let obj = todoArray[i]
+            for(let prop in obj){
+              if(obj[prop] == document.querySelector('.cat-header').textContent){
+                    todoBuffer.push(obj)
+                break;
+              }
+            }
+          }
+      }
+      
+
     function arrangeItems(){
         if(todoArray.length > 1){
             todoArray.forEach(function(item, i){
@@ -49,15 +65,20 @@ export const TODO = (function () {
                 }
             });
         }
+        selectCorrectItems()
+    }
+
+    function cleanDuplicates(){
+        let arr = []
+        const destroyDuplicates = new Set(categoryArray)
+        return arr = [...destroyDuplicates]
     }
 
     function categoryDisplay(){
-        for(let i = 0;i < TODO.categoryArray.length; i++){
-            if(TODO.categoryArray[i] == TODO.categoryArray[i + 1]){
-                TODO.categoryArray.splice(i, 1)
-            }
+        let newCatArray = cleanDuplicates()
+        for(let i = 0;i < newCatArray.length; i++){
             let newCat = new makeTodo()
-            newCat.createDiv(TODO.categoryArray[i],
+            newCat.createDiv(newCatArray[i],
                 MAIN.getSelectors().todoContent)
                 addCategoryListeners()
         }
@@ -72,11 +93,11 @@ export const TODO = (function () {
 
     function itemSetup () {
         arrangeItems()
-        for(let i = 0; i < todoArray.length; i++){
+        for(let i = 0; i < todoBuffer.length; i++){
             let tempDetail = new makeTodo()
             tempDetail.createDetails(
-                `todo-item${[i]}`, MAIN.getSelectors().todoContent)
-            let obj = todoArray[i]
+                `todo-item${[i]}`, MAIN.getSelectors().todoContainer)
+            let obj = todoBuffer[i]
             for(let prop in obj){
                 let tempItems = new makeTodo()
                 if(prop == 'title'){
@@ -113,6 +134,8 @@ export const TODO = (function () {
         createNewCategory,
         setupCategory,
         categoryArray,
-        categoryDisplay
+        categoryDisplay,
+        todoBuffer,
+        selectCorrectItems
     }
 })();

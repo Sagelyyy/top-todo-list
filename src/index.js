@@ -17,6 +17,7 @@ export const MAIN = (function(){
         const todoDescInpt = document.querySelector('#todo-desc-area')
         const todoHp = document.querySelector('#todo-radio-hp')
         const todoContent = document.querySelector('#todo-display')
+        const todoContainer = document.querySelector('#todo-container')
         const todoCategory = document.querySelector('#todo-category-input')
         const todoCatName = document.querySelector('#cat-name')
         return{
@@ -32,7 +33,8 @@ export const MAIN = (function(){
             todoHp,
             todoContent,
             todoCategory,
-            todoCatName
+            todoCatName,
+            todoContainer
         }
     }
 
