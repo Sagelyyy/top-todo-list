@@ -49,10 +49,9 @@ export const TODO = (function () {
         let trashes = document.querySelectorAll('#trash')
         trashes.forEach(item => item.addEventListener('click',(e) => {
             let item = e.target.parentNode
-            for(let i = 0; i < todoArray.length; i++){
-                console.log(todoArray[i].title)
-                console.log(item.children[0].textContent)
-                if(item.children[0].textContent == todoArray[i].title){
+            for(let i = 0; i < todoBuffer.length; i++){
+                if(item.children[0].textContent == todoBuffer[i].title ||
+                    item.children[0].textContent ==  '⚠️ ' + todoBuffer[i].title){
                     item.parentNode.removeChild(item)
                     todoArray.splice(i,1)
                     break;
@@ -60,13 +59,6 @@ export const TODO = (function () {
             }
 
         }))
-    }
-
-
-    function deleteItem(){
-            let item = document.querySelector('#trash').parentNode
-            let delItem = item.parentNode
-            delItem.removeChild(item)
     }
 
     function deleteCategory(cat){
