@@ -22,7 +22,6 @@ export const TODO = (function () {
     function setupCategory(){
         let catOption = document.createElement('option')
         catOption.textContent = 'New category'
-        let catOption2 = document.createElement('option')
         MAIN.getSelectors().todoCategory.appendChild(catOption)
         let newCatArray = cleanDuplicates()
         if(newCatArray.length > 0){
@@ -49,11 +48,12 @@ export const TODO = (function () {
         let trashes = document.querySelectorAll('#trash')
         trashes.forEach(item => item.addEventListener('click',(e) => {
             let item = e.target.parentNode
-            for(let i = 0; i < todoBuffer.length; i++){
-                if(item.children[0].textContent == todoBuffer[i].title ||
-                    item.children[0].textContent ==  '⚠️ ' + todoBuffer[i].title){
+            for(let i = 0; i < todoArray.length; i++){
+                if(item.children[0].textContent == todoArray[i].title ||
+                    item.children[0].textContent ==  '⚠️ ' + todoArray[i].title){
                     item.parentNode.removeChild(item)
                     todoArray.splice(i,1)
+                    console.log(todoArray)
                     break;
                 }
             }
@@ -99,12 +99,23 @@ export const TODO = (function () {
 
     function categoryDisplay(){
         let newCatArray = cleanDuplicates()
+        console.log(newCatArray)
         for(let i = 0;i < newCatArray.length; i++){
             let newCat = new makeTodo()
             newCat.createDiv(newCatArray[i],
                 MAIN.getSelectors().todoContent)
                 addCategoryListeners()
+                //catTrash()
         }
+    }
+
+    function catTrash(){
+        let cats = document.querySelectorAll('.cat-div')
+        let trash = document.createElement('div')
+        trash.textContent = 'delete'
+        trash.classList.add('material-icons')
+        trash.classList.add('md-48')
+        cats.forEach(item => item.appendChild(trash))
     }
 
     function addCategoryListeners(){

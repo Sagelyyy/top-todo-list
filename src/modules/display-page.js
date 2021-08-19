@@ -10,8 +10,7 @@ export const SHOWPAGE = (function(){
 
     function homePage(){
         clearPage()
-        console.log(TODO.todoBuffer)
-
+        TODO.todoBuffer.length = 0
         if(TODO.categoryArray.length == 0){
              MAIN.getSelectors().contentPage.textContent = (
                 'Click the + button to add a new item!')
@@ -26,6 +25,8 @@ export const SHOWPAGE = (function(){
 
     function categoryPage(title){
         clearPage()
+        console.log(TODO.todoBuffer)
+        console.log(TODO.todoArray)
         let catTitle = document.createElement('h1')
         catTitle.classList.add('cat-header')
         catTitle.textContent = title
