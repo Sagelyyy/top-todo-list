@@ -27,12 +27,10 @@ export class makeForm{
 
 export class makeTodo{
 
-    createDiv(title, container){
+    createDiv(container){
         let newCat = document.createElement('div')
         newCat.classList.add('cat-div')
-        newCat.textContent = title
-        container.appendChild(newCat)
-
+        container.appendChild(newCat)  
     }
 
     createDetails(detailsClass, container){

@@ -15,6 +15,12 @@ export const TODO = (function () {
             cat, title, date, time, desc, priority, itemID})
     }
 
+    function render(){
+        categoryDisplay()
+        categoryText()
+        catTrash()
+    }
+
     function createNewCategory(title){
         categoryArray.push(title)
     }
@@ -97,31 +103,51 @@ export const TODO = (function () {
         return arr = [...destroyDuplicates]
     }
 
+    function categoryText(){
+        let newCatArray = cleanDuplicates()
+        let cats = document.querySelectorAll('.cat-div')
+        let i = 0
+        let catTitle = ''
+        while(i < newCatArray.length){
+            console.log(newCatArray[i])
+            catTitle = document.createElement('p')
+            catTitle.classList.add('cat-title')
+            catTitle.textContent = newCatArray[i]
+            cats[i].appendChild(catTitle)
+            i++
+        }
+    }
+
     function categoryDisplay(){
         let newCatArray = cleanDuplicates()
         console.log(newCatArray)
         for(let i = 0;i < newCatArray.length; i++){
             let newCat = new makeTodo()
-            newCat.createDiv(newCatArray[i],
+            newCat.createDiv(
                 MAIN.getSelectors().todoContent)
-                addCategoryListeners()
-                //catTrash()
+                addCategoryListeners()            
         }
     }
 
     function catTrash(){
         let cats = document.querySelectorAll('.cat-div')
-        let trash = document.createElement('div')
-        trash.textContent = 'delete'
-        trash.classList.add('material-icons')
-        trash.classList.add('md-48')
-        cats.forEach(item => item.appendChild(trash))
+        cats.forEach(function(item){
+            let trash = document.createElement('div')
+            trash.textContent = 'delete'
+            trash.classList.add('material-icons')
+            trash.classList.add('md-48')
+            trash.id = 'trash-container'
+            item.appendChild(trash)
+        })
     }
 
     function addCategoryListeners(){
         let myDivs = document.querySelectorAll('.cat-div')
         myDivs.forEach(item => item.addEventListener('click',(e) => {
-            NAVIGATION.showCatPage(e.target.textContent)
+            console.log(e.target)
+            NAVIGATION.showCatPage(
+                e.currentTarget.children[0].textContent
+            )
         }))
     }
 
@@ -167,9 +193,10 @@ export const TODO = (function () {
         createNewCategory,
         setupCategory,
         categoryArray,
-        categoryDisplay,
         todoBuffer,
         selectCorrectItems,
-        trashSetup
+        trashSetup,
+        render
+  
     }
 })();

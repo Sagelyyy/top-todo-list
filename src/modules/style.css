@@ -132,3 +132,7 @@ details{
 .cat-header{
     text-transform: capitalize;
 }
+
+#trash-container:hover{
+    color: #DB4437;
+}

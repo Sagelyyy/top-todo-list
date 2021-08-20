@@ -11,6 +11,7 @@ export const SHOWPAGE = (function(){
     function homePage(){
         clearPage()
         TODO.todoBuffer.length = 0
+        console.log(TODO.categoryArray)
         if(TODO.categoryArray.length == 0){
              MAIN.getSelectors().contentPage.textContent = (
                 'Click the + button to add a new item!')
@@ -18,15 +19,13 @@ export const SHOWPAGE = (function(){
             let todoDisplay = document.createElement('div')
             todoDisplay.id = ('todo-display')
             MAIN.getSelectors().contentPage.appendChild(todoDisplay)
-            TODO.categoryDisplay()
+            TODO.render()
 
         }
     }
 
     function categoryPage(title){
         clearPage()
-        console.log(TODO.todoBuffer)
-        console.log(TODO.todoArray)
         let catTitle = document.createElement('h1')
         catTitle.classList.add('cat-header')
         catTitle.textContent = title
