@@ -9,6 +9,7 @@ export const TODO = (function () {
     const categoryArray = []
     let itemID = 0
     let catSpawn = true
+    let firstLoad = true
 
     const createList = (
         cat, title, date, time, desc, priority, itemID) => {
@@ -19,6 +20,7 @@ export const TODO = (function () {
 
 
     function render(){
+        console.log('INFINITY BOI!')
         categoryDisplay()
         categoryText()
         catTrash()
@@ -40,14 +42,19 @@ export const TODO = (function () {
     }
 
     function loadFromStorage(){
+        let i = 0
+        console.log('OOPS!')
         if(localStorage.length > 0){
-            for(let i = 0; i< localStorage.length; i++){
-                let todoItem = JSON.parse(localStorage.getItem(`todo${i}`))
-                todoArray.push(todoItem)
-            }
-            for(let i = 0; i< localStorage.length; i++){
-                let catItem = JSON.parse(localStorage.getItem(`cat${i}`))
-                categoryArray.push(catItem)
+            while(i < localStorage.length){
+                Object.keys(localStorage).forEach((key) => {
+                    if(key == `todo${i}`){
+                        todoArray.push(JSON.parse(localStorage.getItem(`todo${i}`)))
+                    }
+                    if(key == `cat${i}`){
+                        categoryArray.push(JSON.parse(localStorage.getItem(`cat${i}`)))
+                    }
+                })
+                i++
             }
         }
     }
@@ -120,6 +127,8 @@ export const TODO = (function () {
             for(let i = 0;i < categoryArray.length;i++){
                 if(item.children[0].textContent == categoryArray[i]){
                     categoryArray.splice(i,1)
+                    localStorage.removeItem(`cat${i}`)
+                    localStorage.removeItem(`todo${i}`)
                     NAVIGATION.home()
                 }
             }
@@ -255,7 +264,8 @@ export const TODO = (function () {
         catSpawn,
         saveToStorage,
         firstTimeItem,
-        loadFromStorage
+        loadFromStorage,
+        firstLoad
   
     }
 })();

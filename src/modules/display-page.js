@@ -12,20 +12,23 @@ export const SHOWPAGE = (function(){
     function homePage(){
         clearPage()
         TODO.todoBuffer.length = 0
-        if(TODO.categoryArray.length == 0 && localStorage.length == 0){
-                TODO.firstTimeItem()
-                NAVIGATION.home()
+        let todoDisplay = document.createElement('div')
+        todoDisplay.id = ('todo-display')
 
-        }else{
+        console.log(TODO.todoArray)
+        console.log(TODO.categoryArray)
+        console.log(TODO.firstLoad)
 
-            let todoDisplay = document.createElement('div')
-            todoDisplay.id = ('todo-display')
-            MAIN.getSelectors().contentPage.appendChild(todoDisplay)
-            //TODO.loadFromStorage()
+        MAIN.getSelectors().contentPage.appendChild(todoDisplay)
+        if(localStorage.length > 0 && TODO.firstLoad == true){
+            TODO.firstLoad = false
+            TODO.loadFromStorage()
             TODO.render()
-            console.log(TODO.todoArray)
-            console.log(TODO.categoryArray)
-
+        }else if(localStorage.length == 0 && TODO.categoryArray.length == 0){
+                TODO.firstTimeItem()
+                TODO.render()
+        }else if(localStorage.length > 0){
+            TODO.render()
         }
     }
 
