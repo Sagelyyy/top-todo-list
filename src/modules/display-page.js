@@ -1,5 +1,6 @@
 import { MAIN } from ".."
 import { makeForm, makeTodo } from "./element-creator"
+import { NAVIGATION } from "./navigation-handler"
 import { TODO } from "./todo"
 
 export const SHOWPAGE = (function(){
@@ -11,10 +12,13 @@ export const SHOWPAGE = (function(){
     function homePage(){
         clearPage()
         TODO.todoBuffer.length = 0
-        console.log(TODO.categoryArray)
-        if(TODO.categoryArray.length == 0){
+        if(TODO.categoryArray.length == 0 && TODO.catSpawn == true){
              MAIN.getSelectors().contentPage.textContent = (
                 'Click the + button to add a new item!')
+                ///TESTING PURPOSES
+                TODO.generateTestItems()
+                NAVIGATION.home()
+
         }else{
             let todoDisplay = document.createElement('div')
             todoDisplay.id = ('todo-display')

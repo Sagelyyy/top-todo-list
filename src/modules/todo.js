@@ -7,18 +7,33 @@ export const TODO = (function () {
     const todoArray = []
     const todoBuffer = []
     const categoryArray = []
+    let itemID = 0
+    let catSpawn = true
 
     const createList = (
         cat, title, date, time, desc, priority, itemID) => {
-        itemID = todoArray.length
+        itemID = itemID + 1
         todoArray.push({
             cat, title, date, time, desc, priority, itemID})
     }
+
 
     function render(){
         categoryDisplay()
         categoryText()
         catTrash()
+        deleteCategory()
+    }
+
+
+    function generateTestItems(){
+        for(let i = 0;i < 9; i++){
+            TODO.createList(`Cat${i}`, `Cat${i}`, `1/1/2021`,
+            `13:00 pm`, `test item`, false, itemID)
+            categoryArray.push(`Cat${i}`)
+            catSpawn = false
+
+        }
     }
 
     function createNewCategory(title){
@@ -55,11 +70,9 @@ export const TODO = (function () {
         trashes.forEach(item => item.addEventListener('click',(e) => {
             let item = e.target.parentNode
             for(let i = 0; i < todoArray.length; i++){
-                if(item.children[0].textContent == todoArray[i].title ||
-                    item.children[0].textContent ==  '⚠️ ' + todoArray[i].title){
+                if(item.children[0].textContent == todoArray[i].title){
                     item.parentNode.removeChild(item)
                     todoArray.splice(i,1)
-                    console.log(todoArray)
                     break;
                 }
             }
@@ -67,8 +80,21 @@ export const TODO = (function () {
         }))
     }
 
-    function deleteCategory(cat){
-        //stuff
+    function deleteCategory(){
+        let cats = document.querySelectorAll('#trash-container')
+        cats.forEach(cat => cat.addEventListener('click', (e) => {
+            let item = e.currentTarget.parentNode
+            console.log(item.children[0].textContent)
+            for(let i = 0;i < categoryArray.length;i++){
+                if(item.children[0].textContent == categoryArray[i]){
+                    console.log('test')
+                    item.parentNode.removeChild(item)
+                    //todoArray.splice(i,1)
+                    categoryArray.splice(i,1)
+                    NAVIGATION.home()
+                }
+            }
+        }, true))
     }
 
     function selectCorrectItems() {
@@ -109,7 +135,6 @@ export const TODO = (function () {
         let i = 0
         let catTitle = ''
         while(i < newCatArray.length){
-            console.log(newCatArray[i])
             catTitle = document.createElement('p')
             catTitle.classList.add('cat-title')
             catTitle.textContent = newCatArray[i]
@@ -120,12 +145,11 @@ export const TODO = (function () {
 
     function categoryDisplay(){
         let newCatArray = cleanDuplicates()
-        console.log(newCatArray)
         for(let i = 0;i < newCatArray.length; i++){
             let newCat = new makeTodo()
             newCat.createDiv(
                 MAIN.getSelectors().todoContent)
-                addCategoryListeners()            
+                addCategoryListeners()        
         }
     }
 
@@ -143,12 +167,13 @@ export const TODO = (function () {
 
     function addCategoryListeners(){
         let myDivs = document.querySelectorAll('.cat-div')
-        myDivs.forEach(item => item.addEventListener('click',(e) => {
-            console.log(e.target)
-            NAVIGATION.showCatPage(
-                e.currentTarget.children[0].textContent
-            )
-        }))
+        myDivs.forEach(item => item.addEventListener('click', categoryNav, true))
+    }
+
+    function categoryNav(e){
+        NAVIGATION.showCatPage(
+            e.currentTarget.children[0].textContent
+       )
     }
 
     function itemSetup () {
@@ -196,7 +221,9 @@ export const TODO = (function () {
         todoBuffer,
         selectCorrectItems,
         trashSetup,
-        render
+        render,
+        generateTestItems,
+        catSpawn
   
     }
 })();
