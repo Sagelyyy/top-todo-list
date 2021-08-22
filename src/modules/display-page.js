@@ -12,18 +12,19 @@ export const SHOWPAGE = (function(){
     function homePage(){
         clearPage()
         TODO.todoBuffer.length = 0
-        if(TODO.categoryArray.length == 0 && TODO.catSpawn == true){
-             MAIN.getSelectors().contentPage.textContent = (
-                'Click the + button to add a new item!')
-                ///TESTING PURPOSES
-                TODO.generateTestItems()
+        if(TODO.categoryArray.length == 0 && localStorage.length == 0){
+                TODO.firstTimeItem()
                 NAVIGATION.home()
 
         }else{
+
             let todoDisplay = document.createElement('div')
             todoDisplay.id = ('todo-display')
             MAIN.getSelectors().contentPage.appendChild(todoDisplay)
+            //TODO.loadFromStorage()
             TODO.render()
+            console.log(TODO.todoArray)
+            console.log(TODO.categoryArray)
 
         }
     }
@@ -41,6 +42,7 @@ export const SHOWPAGE = (function(){
         todoContainer.id = ('todo-container')
         MAIN.getSelectors().todoContent.appendChild(todoContainer)
         MAIN.getSelectors().todoContent.style.flexDirection = ('column')
+        MAIN.getSelectors().todoContent.style.flexWrap = ('nowrap')
         TODO.itemSetup()
         TODO.trashSetup()
     }
@@ -129,6 +131,7 @@ export const SHOWPAGE = (function(){
                                 TODO.todoArray.length);
                             TODO.createNewCategory(
                                 MAIN.getSelectors().todoCatName.value)
+                                TODO.saveToStorage()
                                 break;
                         case 'hidden':
                             TODO.createList(
@@ -141,13 +144,16 @@ export const SHOWPAGE = (function(){
                                 TODO.todoArray.length);
                             TODO.createNewCategory(
                                 MAIN.getSelectors().todoCategory.value)
+                                TODO.saveToStorage()
                                 break;
                     }
                 }
         homePage()
 
+
         }
         TODO.setupCategory()
+
     }
     return{
         newTodo,

@@ -26,8 +26,41 @@ export const TODO = (function () {
     }
 
 
+    function saveToStorage(){
+        if(todoArray.length > 0 && categoryArray.length > 0){
+            for(let i = 0; i< todoArray.length;i++){
+                localStorage.setItem(
+                    `todo${i}`, JSON.stringify(todoArray[i]))
+            }
+            for(let i = 0; i< categoryArray.length;i++){
+                localStorage.setItem(
+                    `cat${i}`, JSON.stringify(categoryArray[i]))
+            }
+        }
+    }
+
+    function loadFromStorage(){
+        if(localStorage.length > 0){
+            for(let i = 0; i< localStorage.length; i++){
+                let todoItem = JSON.parse(localStorage.getItem(`todo${i}`))
+                todoArray.push(todoItem)
+            }
+            for(let i = 0; i< localStorage.length; i++){
+                let catItem = JSON.parse(localStorage.getItem(`cat${i}`))
+                categoryArray.push(catItem)
+            }
+        }
+    }
+
+    function firstTimeItem(){
+        TODO.createList(`My First Todo`, `Click Me!`, `1/1/2022`,
+        `13:00 pm`, `Welcome! click on the green plus `
+        + 'to add new items!', false, itemID)
+        categoryArray.push(`My First Todo`)
+    }
+
     function generateTestItems(){
-        for(let i = 0;i < 9; i++){
+        for(let i = 0;i < 5; i++){
             TODO.createList(`Cat${i}`, `Cat${i}`, `1/1/2021`,
             `13:00 pm`, `test item`, false, itemID)
             categoryArray.push(`Cat${i}`)
@@ -84,12 +117,8 @@ export const TODO = (function () {
         let cats = document.querySelectorAll('#trash-container')
         cats.forEach(cat => cat.addEventListener('click', (e) => {
             let item = e.currentTarget.parentNode
-            console.log(item.children[0].textContent)
             for(let i = 0;i < categoryArray.length;i++){
                 if(item.children[0].textContent == categoryArray[i]){
-                    console.log('test')
-                    item.parentNode.removeChild(item)
-                    //todoArray.splice(i,1)
                     categoryArray.splice(i,1)
                     NAVIGATION.home()
                 }
@@ -223,7 +252,10 @@ export const TODO = (function () {
         trashSetup,
         render,
         generateTestItems,
-        catSpawn
+        catSpawn,
+        saveToStorage,
+        firstTimeItem,
+        loadFromStorage
   
     }
 })();

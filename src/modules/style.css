@@ -43,11 +43,11 @@ html, body{
 
 .content{
     height: 100%;
-    overflow: hidden;
     display: flex;
 }
 
 nav{
+    position: fixed;
     background-color: lightgray;
     height: 100%;
     width: 15%;
@@ -62,7 +62,7 @@ span{
 
 .content-page{
     font-size: 60px;
-    margin-left: 5%;
+    margin-left: 25rem;
     width: 65%;
 }
 
@@ -111,6 +111,11 @@ details{
     font-size: 60px;
 }
 
+#trash:hover{
+    cursor: pointer;
+    color: #DB4437;
+}
+
 .cat-div{
     display: flex;
     flex-direction: column;
@@ -118,7 +123,6 @@ details{
     margin-top: 5rem;
     margin: 20px;
     box-shadow: 10px 10px 10px black;
-    overflow: hidden;
     width: 15rem;
     height: 15rem;
     background-color: slategray;
@@ -129,10 +133,38 @@ details{
     background-color: lightgray;
 }
 
+.cat-title{
+    font-size: 2vw;
+}
+
 .cat-header{
     text-transform: capitalize;
 }
 
 #trash-container:hover{
     color: #DB4437;
+}
+
+@media screen and (max-width: 1024px){
+    .cat-title{
+        font-size: 4vw;
+    }
+
+    .content-page{
+        font-size: 60px;
+        margin-left: 15rem;
+        width: 65%;
+    }
+
+    #todo-form{
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        font-size: 75px;
+    }
+
+    input, textarea, select{
+        font-size: 60px;
+        width: 100%;
+    }
 }
