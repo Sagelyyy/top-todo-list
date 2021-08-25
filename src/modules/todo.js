@@ -10,6 +10,7 @@ export const TODO = (function () {
     let itemID = 0
     let catSpawn = true
     let firstLoad = true
+    let oneShot = true
 
     const createList = (
         cat, title, date, time, desc, priority, itemID) => {
@@ -20,7 +21,7 @@ export const TODO = (function () {
 
 
     function render(){
-        console.log('INFINITY BOI!')
+        console.log('rendering')
         categoryDisplay()
         categoryText()
         catTrash()
@@ -29,6 +30,7 @@ export const TODO = (function () {
 
 
     function saveToStorage(){
+        console.log('SAVING!')
         if(todoArray.length > 0 && categoryArray.length > 0){
             for(let i = 0; i< todoArray.length;i++){
                 localStorage.setItem(
@@ -43,7 +45,7 @@ export const TODO = (function () {
 
     function loadFromStorage(){
         let i = 0
-        console.log('OOPS!')
+        console.log('LOADING!!')
         if(localStorage.length > 0){
             while(i < localStorage.length){
                 Object.keys(localStorage).forEach((key) => {
@@ -60,10 +62,16 @@ export const TODO = (function () {
     }
 
     function firstTimeItem(){
-        TODO.createList(`My First Todo`, `Click Me!`, `1/1/2022`,
-        `13:00 pm`, `Welcome! click on the green plus `
-        + 'to add new items!', false, itemID)
-        categoryArray.push(`My First Todo`)
+        console.log(`ONESHOT = ${oneShot}`)
+        if(oneShot == true){
+            oneShot = false
+            console.log('SAVING!')
+            TODO.createList(`My First Todo`, `Click Me!`, `1/1/2022`,
+            `13:00 pm`, `Welcome! click on the green plus `
+            + 'to add new items!', false, itemID)
+            categoryArray.push(`My First Todo`)
+            saveToStorage()
+        }
     }
 
     function generateTestItems(){
@@ -109,11 +117,19 @@ export const TODO = (function () {
         let trashes = document.querySelectorAll('#trash')
         trashes.forEach(item => item.addEventListener('click',(e) => {
             let item = e.target.parentNode
+                todoBuffer.forEach((item) => {
+                    for(let j = 0;j < localStorage.length; j++){
+                        if(JSON.stringify(item) == localStorage.getItem(`todo${j}`)){
+                            localStorage.removeItem(`todo${j}`)
+                        }
+                    }
+                })
+            //This is not working for some reason now?
             for(let i = 0; i < todoArray.length; i++){
                 if(item.children[0].textContent == todoArray[i].title){
+                    console.log('splicing')
                     item.parentNode.removeChild(item)
                     todoArray.splice(i,1)
-                    break;
                 }
             }
 
@@ -127,9 +143,15 @@ export const TODO = (function () {
             for(let i = 0;i < categoryArray.length;i++){
                 if(item.children[0].textContent == categoryArray[i]){
                     categoryArray.splice(i,1)
+                    todoArray.splice(i,1)
+                    console.log(i)
+                    console.log(`cat${i}`)
+                    console.log(`todo${i}`)
                     localStorage.removeItem(`cat${i}`)
                     localStorage.removeItem(`todo${i}`)
+                    SHOWPAGE.buffer()
                     NAVIGATION.home()
+                    break
                 }
             }
         }, true))
@@ -265,7 +287,8 @@ export const TODO = (function () {
         saveToStorage,
         firstTimeItem,
         loadFromStorage,
-        firstLoad
+        firstLoad,
+        oneShot
   
     }
 })();
