@@ -20,25 +20,25 @@ export const SHOWPAGE = (function(){
         console.log('CAT')
         console.log(TODO.categoryArray)
         console.log(TODO.firstLoad)
-        console.log(`ONESHOT = ${TODO.oneShot}`)
 
 
         MAIN.getSelectors().contentPage.appendChild(todoDisplay)
 
-        //working maybe?
         if(localStorage.length > 0 && TODO.firstLoad == true){
             console.log('first load')
             TODO.firstLoad = false
             TODO.loadFromStorage()
             TODO.render()
-        }else if( localStorage.length == 0){
+        }else if(localStorage.length == 0){
             console.log('first time item')
-            TODO.firstTimeItem()
+            TODO.generateTestItems()
             TODO.render()
         }else if(localStorage.length > 0){
             console.log('just render')
             TODO.render()
         }
+        console.log('TODO PART 2')
+        console.log(TODO.todoArray)
     }
 
     function buffer(){

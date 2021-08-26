@@ -10,7 +10,6 @@ export const TODO = (function () {
     let itemID = 0
     let catSpawn = true
     let firstLoad = true
-    let oneShot = true
 
     const createList = (
         cat, title, date, time, desc, priority, itemID) => {
@@ -45,43 +44,51 @@ export const TODO = (function () {
 
     function loadFromStorage(){
         let i = 0
+        if(todoArray.length == 0){
         console.log('LOADING!!')
-        if(localStorage.length > 0){
-            while(i < localStorage.length){
-                Object.keys(localStorage).forEach((key) => {
-                    if(key == `todo${i}`){
-                        todoArray.push(JSON.parse(localStorage.getItem(`todo${i}`)))
-                    }
-                    if(key == `cat${i}`){
-                        categoryArray.push(JSON.parse(localStorage.getItem(`cat${i}`)))
-                    }
-                })
-                i++
+            if(localStorage.length > 0){
+                while(i < localStorage.length){
+                    Object.keys(localStorage).forEach((key) => {
+                        if(key == `todo${i}`){
+                            todoArray.push(JSON.parse(localStorage.getItem(`todo${i}`)))
+                        }
+                        if(key == `cat${i}`){
+                            categoryArray.push(JSON.parse(localStorage.getItem(`cat${i}`)))
+                        }
+                    })
+                    i++
+                }
             }
         }
     }
 
-    function firstTimeItem(){
+    const firstTimeItem = (function(){
+        let oneShot = false
         console.log(`ONESHOT = ${oneShot}`)
-        if(oneShot == true){
-            oneShot = false
-            console.log('SAVING!')
-            TODO.createList(`My First Todo`, `Click Me!`, `1/1/2022`,
-            `13:00 pm`, `Welcome! click on the green plus `
-            + 'to add new items!', false, itemID)
-            categoryArray.push(`My First Todo`)
-            saveToStorage()
+        return function(){
+            if(!oneShot){
+                oneShot = true
+                console.log('First Time Item!')
+                TODO.createList(`My First Todo`, `Click Me!`, `1/1/2022`,
+                `13:00 pm`, `Welcome! click on the green plus `
+                + 'to add new items!', false, itemID)
+                categoryArray.push(`My First Todo`)
+                saveToStorage()
+            }
         }
-    }
+    })();
 
     function generateTestItems(){
-        for(let i = 0;i < 5; i++){
+        let i = 0
+        console.log('GENERATE!!')
+        while(i < 5){
             TODO.createList(`Cat${i}`, `Cat${i}`, `1/1/2021`,
             `13:00 pm`, `test item`, false, itemID)
             categoryArray.push(`Cat${i}`)
             catSpawn = false
-
-        }
+            i++
+    }
+        saveToStorage()
     }
 
     function createNewCategory(title){
@@ -115,25 +122,27 @@ export const TODO = (function () {
             }
         }
         let trashes = document.querySelectorAll('#trash')
-        trashes.forEach(item => item.addEventListener('click',(e) => {
-            let item = e.target.parentNode
-                todoBuffer.forEach((item) => {
-                    for(let j = 0;j < localStorage.length; j++){
-                        if(JSON.stringify(item) == localStorage.getItem(`todo${j}`)){
-                            localStorage.removeItem(`todo${j}`)
-                        }
-                    }
-                })
-            //This is not working for some reason now?
-            for(let i = 0; i < todoArray.length; i++){
-                if(item.children[0].textContent == todoArray[i].title){
+        trashes.forEach(item => item.addEventListener('click', deleteItem))
+    }
+
+
+    function deleteItem(e){
+        let item = e.target.parentNode
+        todoBuffer.forEach((item) => {
+            for(let j = 0;j < localStorage.length; j++){
+                if(JSON.stringify(item) == localStorage.getItem(`todo${j}`)){
+                    localStorage.removeItem(`todo${j}`)
+                }
+            }
+        })
+        for(let i = 0; i < todoArray.length; i++){
+                if(item.children[0].textContent == todoArray[i].title ||
+                    item.children[0].textContent == '⚠️ ' + todoArray[i].title){
                     console.log('splicing')
                     item.parentNode.removeChild(item)
                     todoArray.splice(i,1)
-                }
             }
-
-        }))
+        }
     }
 
     function deleteCategory(){
@@ -288,7 +297,7 @@ export const TODO = (function () {
         firstTimeItem,
         loadFromStorage,
         firstLoad,
-        oneShot
+        cleanDuplicates
   
     }
 })();
