@@ -37,8 +37,6 @@ export const SHOWPAGE = (function(){
             console.log('just render')
             TODO.render()
         }
-        console.log('TODO PART 2')
-        console.log(TODO.todoArray)
     }
 
     function buffer(){

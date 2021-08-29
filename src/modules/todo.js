@@ -37,7 +37,7 @@ export const TODO = (function () {
             }
             for(let i = 0; i< categoryArray.length;i++){
                 localStorage.setItem(
-                    `cat${i}`, JSON.stringify(categoryArray[i]))
+                    `Cat${i}`, JSON.stringify(categoryArray[i]))
             }
         }
     }
@@ -52,8 +52,8 @@ export const TODO = (function () {
                         if(key == `todo${i}`){
                             todoArray.push(JSON.parse(localStorage.getItem(`todo${i}`)))
                         }
-                        if(key == `cat${i}`){
-                            categoryArray.push(JSON.parse(localStorage.getItem(`cat${i}`)))
+                        if(key == `Cat${i}`){
+                            categoryArray.push(JSON.parse(localStorage.getItem(`Cat${i}`)))
                         }
                     })
                     i++
@@ -82,9 +82,9 @@ export const TODO = (function () {
         let i = 0
         console.log('GENERATE!!')
         while(i < 5){
-            TODO.createList(`Cat${i}`, `Cat${i}`, `1/1/2021`,
+            TODO.createList(`Meow${i}`, `Meow${i}`, `1/1/2021`,
             `13:00 pm`, `test item`, false, itemID)
-            categoryArray.push(`Cat${i}`)
+            categoryArray.push(`Meow${i}`)
             catSpawn = false
             i++
     }
@@ -128,6 +128,7 @@ export const TODO = (function () {
 
     function deleteItem(e){
         let item = e.target.parentNode
+        console.log(`DELETE ${item}`)
         todoBuffer.forEach((item) => {
             for(let j = 0;j < localStorage.length; j++){
                 if(JSON.stringify(item) == localStorage.getItem(`todo${j}`)){
@@ -147,23 +148,29 @@ export const TODO = (function () {
 
     function deleteCategory(){
         let cats = document.querySelectorAll('#trash-container')
-        cats.forEach(cat => cat.addEventListener('click', (e) => {
-            let item = e.currentTarget.parentNode
-            for(let i = 0;i < categoryArray.length;i++){
-                if(item.children[0].textContent == categoryArray[i]){
-                    categoryArray.splice(i,1)
-                    todoArray.splice(i,1)
-                    console.log(i)
-                    console.log(`cat${i}`)
-                    console.log(`todo${i}`)
-                    localStorage.removeItem(`cat${i}`)
-                    localStorage.removeItem(`todo${i}`)
-                    SHOWPAGE.buffer()
-                    NAVIGATION.home()
-                    break
-                }
+        cats.forEach(function cat(element, i) {
+            element.addEventListener("click", catDeletion)
+
+        })
+    }
+
+    function catDeletion(e){
+        let item = e.currentTarget.parentNode;
+        for(let i = 0; i < categoryArray.length; i++){
+            let unserializedItem = JSON.parse(localStorage.getItem(`Cat${i}`))
+            if(unserializedItem == item.children[0].textContent){
+                console.log(`storage cat index: Cat${i}`)
+                console.log(`storage todo index: todo${i}`)
+                console.log('meep?')
+                localStorage.removeItem(`Cat${i}`)
+                localStorage.removeItem(`todo${i}`)
+                categoryArray.splice(i,1)
+                todoArray.splice(i,1)
+                localStorage.clear()
+                saveToStorage()
             }
-        }, true))
+        }
+        NAVIGATION.home()
     }
 
     function selectCorrectItems() {
@@ -236,7 +243,9 @@ export const TODO = (function () {
 
     function addCategoryListeners(){
         let myDivs = document.querySelectorAll('.cat-div')
+        let myTrashes = document.querySelectorAll('#trash-container')
         myDivs.forEach(item => item.addEventListener('click', categoryNav, true))
+
     }
 
     function categoryNav(e){
